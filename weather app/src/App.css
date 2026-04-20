@@ -1,0 +1,226 @@
+/*! importar fuentes de assets fonts */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url('./assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "DM Sans Italic";
+  src: url('./assets/fonts/DM_Sans/DMSans-Italic-VariableFont.ttf') format('truetype');
+}
+@font-face {
+  font-family: "DM Sans Regular";
+  src: url('./assets/fonts/DM_Sans/DMSans-VariableFont.ttf') format('truetype');
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: hsl(243, 96%, 9%);
+  width: 100vw;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans Regular', sans-serif;
+  color: white;
+}
+
+.containerP {
+  width: 95vw;
+  margin: 0 auto;
+}
+
+/*? Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoApp {
+  width: 250px;
+}
+
+@media screen and (max-width: 500px) {
+  .logoApp {
+    width: 130px;
+  }
+}
+
+/*? Dropdown */
+.dropdown {
+  position: relative;
+  font-weight: bold;
+}
+
+.dropdown-btn {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  background: #1e293b;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.dropdown-btn:hover {
+  background: #334155;
+}
+
+.icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrow {
+  transition: transform 0.4s;
+  display: flex;
+  align-items: center;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/*? Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+.dropdown-menu button {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+  background: #334155;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.titleP{
+  font-size: 3em;
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 1.5em;
+  font-family: "Bricolage Grotesque";
+}
+
+.input-container .inputP{
+  background-color: hsl(243, 27%, 20%);
+  border: none;
+  height: 3em;
+  border-radius: 10px;
+  width: 100%;
+  padding: 0 1.5em;
+  color: white;
+  font-weight: 700;
+}
+
+.input-container {
+  width: 60vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.input-container .autocomplete{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.input-container .btnP {
+  cursor: pointer;
+  padding: 0 1em;
+  margin: 0;
+  height: 3em;
+  border: 0;
+  border-radius: 7px;
+  background-color: hsl(233, 67%, 56%);
+  color: white
+}
+
+@media screen and (max-width: 500px) {
+  .input-container {
+    width: 100vw;
+    flex-direction: column;
+  }
+  .input-container .inputP{
+    width: 82%; 
+  }
+  .input-container .btnP {
+    width: 90%;
+    padding: 0 0;
+  }
+}
+
+.autocomplete {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownSearch {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 100%;
+  background: #1e293b;
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.dropdownSearch li {
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+}
+
+.dropdownSearch li:hover {
+  background: #334155;
+}
