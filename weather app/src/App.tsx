@@ -1,60 +1,17 @@
 import "./App.css";
+import { useState } from "react";
+import { DataWeather } from "./components/DataWeather";
 import { Header } from "./components/Header";
-import { useEffect, useState } from "react";
-import { getCoordinates } from "./api/axios";
-
-type Location = {
-  name: string;
-  country: string;
-  latitude: number;
-  longitude: number;
-};
+import {
+  LocationSearch,
+  type CoordinatesParams,
+} from "./components/LocationSearch";
 
 function App() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Location[]>([]);
-  const [selected, setSelected] = useState<Location | null>(null);
-  const [hasSelected, setHasSelected] = useState(false);
-
-  useEffect(() => {
-    if (hasSelected) return;
-
-    const timeout = setTimeout(() => {
-      if (query.length > 2) {
-        getCoordinates(query)
-          .then((res) => {
-            setResults(res.results || []);
-          })
-          .catch(console.error);
-      } else {
-        setResults([]);
-      }
-    }, 400);
-
-    return () => clearTimeout(timeout);
-  }, [query, hasSelected]);
-
-  const handleSelect = (item: Location) => {
-    setSelected(item);
-    setQuery(`${item.name}, ${item.country}`);
-    setResults([]);
-    setHasSelected(true);
-  };
-
-  const handleSearch = () => {
-    if (!selected) return;
-
-    const params = {
-      latitude: selected.latitude,
-      longitude: selected.longitude,
-    };
-
-    console.log("Buscar clima con:", params);
-  };
-
-  const handleChange = (value: string) => {
-    setQuery(value);
-    setHasSelected(false);
+  const [paramsData, setParamsData] = useState({ latitude: 0, longitude: 0 })
+  const handleLocationSearch = (params: CoordinatesParams) => {
+    setParamsData(params)
+    // console.log("Buscar clima con:", params);
   };
 
   return (
@@ -62,33 +19,8 @@ function App() {
       <Header />
 
       <h1 className="titleP">How's the sky looking today?</h1>
-
-      <div className="input-container">
-        <div className="autocomplete">
-          <input
-            className="inputP"
-            type="text"
-            id="inputP"
-            value={query}
-            onChange={(e) => handleChange(e.target.value)}
-            placeholder="🔍︎ Search for a place..."
-          />
-
-          {results.length > 0 && (
-            <ul className="dropdownSearch">
-              {results.map((item, i) => (
-                <li key={i} onClick={() => handleSelect(item)}>
-                  {item.name}, {item.country}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        <button className="btnP" onClick={handleSearch}>
-          Search
-        </button>
-      </div>
+      <LocationSearch onSearch={handleLocationSearch} />
+      <DataWeather params={paramsData} />
     </section>
   );
 }
