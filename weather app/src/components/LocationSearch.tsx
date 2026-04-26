@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import { getCoordinates } from "../api/axios";
 
-type Location = {
+export type Location = {
   name: string;
   country: string;
   latitude: number;
   longitude: number;
 };
 
-export type CoordinatesParams = {
-  latitude: number;
-  longitude: number;
-};
-
 type LocationSearchProps = {
-  onSearch: (params: CoordinatesParams) => void;
+  onSearch: (location: Location) => void;
 };
 
 export const LocationSearch = ({ onSearch }: LocationSearchProps) => {
@@ -50,11 +45,7 @@ export const LocationSearch = ({ onSearch }: LocationSearchProps) => {
 
   const handleSearch = () => {
     if (!selected) return;
-
-    onSearch({
-      latitude: selected.latitude,
-      longitude: selected.longitude,
-    });
+    onSearch(selected); // 🔥 ahora envía TODO
   };
 
   const handleChange = (value: string) => {
@@ -69,7 +60,6 @@ export const LocationSearch = ({ onSearch }: LocationSearchProps) => {
         <input
           className="inputP"
           type="text"
-          id="inputP"
           value={query}
           onChange={(e) => handleChange(e.target.value)}
           placeholder="🔍︎ Search for a place..."

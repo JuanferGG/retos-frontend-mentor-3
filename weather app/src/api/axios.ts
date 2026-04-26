@@ -11,7 +11,7 @@ export const getCoordinates = async (city: string) => {
     {
       params: {
         name: city,
-        count: 5,
+        count: 8,
         language: "es",
         format: "json",
       },
