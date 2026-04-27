@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchWeatherApi } from "openmeteo";
+import { weatherMap } from "./WheaterMap";
 import type { Location } from "./LocationSearch";
 
 type CoordinatesParams = {
@@ -29,17 +30,14 @@ type WeatherData = {
   };
 };
 
-const weatherMap: Record<number, string> = {
-  0: "☀️",
-  1: "🌤️",
-  2: "⛅",
-  3: "☁️",
-  45: "🌫️",
-  61: "🌧️",
-  71: "❄️",
-};
 
-export const DataWeather = ({ params, location }: { params: CoordinatesParams, location: Location | null }) => {
+export const DataWeather = ({
+  params,
+  location,
+}: {
+  params: CoordinatesParams;
+  location: Location | null;
+}) => {
   const { latitude, longitude } = params;
   const [data, setData] = useState<WeatherData | null>(null);
 
@@ -128,47 +126,70 @@ export const DataWeather = ({ params, location }: { params: CoordinatesParams, l
 
   return (
     <div className="weather-container">
-      {/* 🔥 CURRENT */}
-      <div className="current">
-        <p className="location">{`${location.name}, ${location.country}`}</p>
-        <p>{weatherMap[data.current.weatherCode]}</p>
-        <h2>{Math.round(data.current.temperature)}°</h2>
-      </div>
-
-      {/* 🔥 METRICS */}
-      <div className="metrics">
-        <p>Feels like: {Math.round(data.current.feelsLike)}°</p>
-        <p>Humidity: {Math.round(data.current.humidity)}%</p>
-        <p>Wind: {Math.round(data.current.wind)} km/h</p>
-        <p>Precipitation: {Math.round(data.current.precipitation)} mm</p>
-      </div>
-
-      {/* 🔥 DAILY */}
-      <div className="daily">
-        <h3>7-Day Forecast</h3>
-        {data.daily.time.map((day, i) => (
-          <div key={i}>
-            <p>{day.toLocaleDateString()}</p>
-            <p>
-              {Math.round(data.daily.max[i])}° / {Math.round(data.daily.min[i])}
-              °
-            </p>
-            <p>{weatherMap[data.daily.weatherCode[i]]}</p>
+      <div className="weather-data-left">
+        {/* CURRENT */}
+        <div className="current">
+          <div className="location-time">
+            <p className="location">{`${location.name}, ${location.country}`}</p>
+            <p className="time">{new Date().toUTCString()}</p>
           </div>
-        ))}
+          <h2 className="temperature">
+            {weatherMap[data.current.weatherCode]}
+            {Math.round(data.current.temperature)}°
+          </h2>
+        </div>
+
+        {/* METRICS */}
+        <div className="metrics">
+          <div className="metric">
+            <h2>Feels like</h2>
+            <p>{Math.round(data.current.feelsLike)}°</p>
+          </div>
+          <div className="metric">
+            <h2>Humidity</h2>
+            <p>{Math.round(data.current.humidity)}%</p>
+          </div>
+          <div className="metric">
+            <h2>Wind</h2>
+            <p>{Math.round(data.current.wind)}km/h</p>
+          </div>
+          <div className="metric">
+            <h2>Precipitation</h2>
+            <p>{Math.round(data.current.precipitation)}mm</p>
+          </div>
+        </div>
+
+        {/* DAILY */}
+        <div className="daily">
+          <h3 className="title">7-Day Forecast</h3>
+          {data.daily.time.map((day, i) => (
+            <div key={i} className="block-day">
+              <p>{day.toLocaleDateString("en-US", { weekday: "long" })}</p>
+              <p>{weatherMap[data.daily.weatherCode[i]]}</p>
+              <div className="temp-min-max">
+                <p>{Math.round(data.daily.max[i])}°</p>
+                <p>{Math.round(data.daily.min[i])}°</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* 🔥 HOURLY */}
-      {/* <div className="hourly">
-        <h3>Hourly</h3>
-        {data.hourly.time.slice(0, 12).map((time, i) => (
-          <div key={i}>
-            <p>{time.getHours()}:00</p>
-            <p>{Math.round(data.hourly.temperature[i])}°</p>
-            <p>{weatherMap[data.hourly.weatherCode[i]]}</p>
-          </div>
-        ))}
-      </div> */}
+      <div className="weather-data-right">
+        {/* HOURLY */}
+        <div className="hourly">
+          <h3>Hourly</h3>
+          {data.hourly.time.slice(0, 12).map((time, i) => (
+            <div key={i} className="block-hour">
+              <div className="icon-hour">
+                <p>{weatherMap[data.hourly.weatherCode[i]] || "🌤️"}</p>
+                <p>{time.getHours()}:00</p>
+              </div>
+              <p>{Math.round(data.hourly.temperature[i])}°</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

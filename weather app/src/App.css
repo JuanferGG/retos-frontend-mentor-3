@@ -166,6 +166,7 @@ p, h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   align-items: center;
   gap: 1em;
+  margin-bottom: 2em;
 }
 
 .input-container .autocomplete{
@@ -210,7 +211,8 @@ p, h1, h2, h3, h4, h5, h6 {
   top: 105%;
   left: 0;
   width: 97%;
-  background: #1e293b;
+  background: hsla(244, 27%, 20%, 0.89);
+  backdrop-filter: blur(10px);
   border-radius: 10px;
   height: fit-content;
   overflow-y: auto;
@@ -229,10 +231,88 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .weather-container{
-  width: 100%;
-  
+  width: 80%;
+  margin: auto;
+  display: flex;
+  gap: 1em;
 }
 
-.weather-container .daily{
+
+.weather-container .weather-data-left{
+  width: 80%;
+}
+.weather-container .weather-data-left .current{
+  background-image: url("./assets/images/bg-today-large.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   width: 100%;
+  height: 300px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+.weather-container .weather-data-left .current .location-time{
+  display: flex;
+  margin-left: 2em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  font-weight: bold;
+  gap: 1em;
+}
+.weather-container .weather-data-left .current .location-time .location{
+  font-size: 2em;
+  font-family: "DM Sans Regular";
+}
+.weather-container .weather-data-left .current .temperature{
+  font-size: 5em;
+  margin-right: 1em;
+}
+.weather-container .weather-data-left .metrics{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  gap: 1em;
+}
+.weather-container .weather-data-left .metrics .metric{
+  width: 30%;
+  height: calc(100px - 1em);
+  border-radius: 15px;
+  background: hsl(243, 27%, 20%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1em;
+}
+.weather-container .weather-data-left .metrics .metric h2{
+  font-size: 1em;
+  font-weight: 200;
+}
+.weather-container .weather-data-left .metrics .metric p{
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.weather-container .weather-data-right{
+  width: 20%;
+  border-radius: 20px;
+  padding: 1em;
+  background: hsl(243, 27%, 20%);
+}
+
+.weather-container .weather-data-right .hourly{
+  display: flex;
+  flex-direction: column;
+}
+.weather-container .weather-data-right .hourly .block-hour{
+  display: flex;
+  justify-content: space-between;
+}
+.weather-container .weather-data-right .hourly .block-hour .icon-hour{
+  display: flex;
+  gap: .5em;
 }
