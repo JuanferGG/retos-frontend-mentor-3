@@ -296,6 +296,48 @@ p, h1, h2, h3, h4, h5, h6 {
   font-size: 2em;
   font-weight: bold;
 }
+.weather-container .weather-data-left .daily{
+  display: flex;
+  flex-direction: column;
+  margin: 2em 0;
+}
+.weather-container .weather-data-left .daily .title{
+  font-size: 1.5em;
+  margin-bottom: 1em;
+  font-weight: 400;
+}
+.weather-container .weather-data-left .daily .daily-container{
+  display: flex;
+  gap: 1em;
+}
+.weather-container .weather-data-left .daily .daily-container .block-day{
+  width: 25%;
+  height: calc(140px - 1em);
+  border-radius: 15px;
+  background: hsl(243, 27%, 20%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  gap: .5em;
+}
+.weather-container .weather-data-left .daily .daily-container .block-day p{
+  font-size: 1em;
+  font-weight: 200;
+}
+.weather-container .weather-data-left .daily .daily-container .block-day .icon-day{
+  font-size: 3em;
+}
+.weather-container .weather-data-left .daily .daily-container .block-day .temp-min-max{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
 
 .weather-container .weather-data-right{
   width: 20%;
@@ -305,14 +347,36 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .weather-container .weather-data-right .hourly{
+  width: 100%;
   display: flex;
   flex-direction: column;
+}
+.weather-container .weather-data-right .hourly .title{
+  font-size: 1.5em;
+  margin-bottom: .5em;
+}
+.weather-container .weather-data-right .hourly .hourly-container{
+  display: flex;
+  flex-direction: column;
+  gap: .8em;
 }
 .weather-container .weather-data-right .hourly .block-hour{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background: hsl(243, 27%, 20%);
+  border: 1px solid hsl(244, 10%, 34%);
+  border-radius: 10px;
+  padding: 1em .5em;
+}
+.weather-container .weather-data-right .hourly .block-hour .icon{
+  font-size: 1.5em;
 }
 .weather-container .weather-data-right .hourly .block-hour .icon-hour{
   display: flex;
   gap: .5em;
 }
+.weather-container .weather-data-right .hourly .block-hour .icon-hour p{
+    margin: auto;
+}
+

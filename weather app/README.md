@@ -130,6 +130,11 @@ src/
 
 ---
 
+## 🖼️ Desktop Image
+
+![weather app](./desktop_img.png)
+
+
 ## 📌 Author
 
 Developed by **[JuanferGG]**

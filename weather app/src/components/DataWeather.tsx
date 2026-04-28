@@ -30,7 +30,6 @@ type WeatherData = {
   };
 };
 
-
 export const DataWeather = ({
   params,
   location,
@@ -161,33 +160,39 @@ export const DataWeather = ({
 
         {/* DAILY */}
         <div className="daily">
-          <h3 className="title">7-Day Forecast</h3>
-          {data.daily.time.map((day, i) => (
-            <div key={i} className="block-day">
-              <p>{day.toLocaleDateString("en-US", { weekday: "long" })}</p>
-              <p>{weatherMap[data.daily.weatherCode[i]]}</p>
-              <div className="temp-min-max">
-                <p>{Math.round(data.daily.max[i])}°</p>
-                <p>{Math.round(data.daily.min[i])}°</p>
+          <h3 className="title">Day Forecast</h3>
+          <div className="daily-container">
+            {data.daily.time.map((day, i) => (
+              <div key={i} className="block-day">
+                <p>{day.toLocaleDateString("en-US", { weekday: "long" })}</p>
+                <p className="icon-day">
+                  {weatherMap[data.daily.weatherCode[i]]}
+                </p>
+                <div className="temp-min-max">
+                  <p>{Math.round(data.daily.max[i])}°</p>
+                  <p>{Math.round(data.daily.min[i])}°</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="weather-data-right">
         {/* HOURLY */}
         <div className="hourly">
-          <h3>Hourly</h3>
-          {data.hourly.time.slice(0, 12).map((time, i) => (
-            <div key={i} className="block-hour">
-              <div className="icon-hour">
-                <p>{weatherMap[data.hourly.weatherCode[i]] || "🌤️"}</p>
-                <p>{time.getHours()}:00</p>
+          <h3 className="title">Hourly</h3>
+          <div className="hourly-container">
+            {data.hourly.time.slice(0, 12).map((time, i) => (
+              <div key={i} className="block-hour">
+                <div className="icon-hour">
+                  <p className="icon">{weatherMap[data.hourly.weatherCode[i]] || "🌤️"}</p>
+                  <p>{time.getHours()} {time.getHours() >= 12 ? "PM" : "AM"}</p>
+                </div>
+                <p className="hourly-grades">{Math.round(data.hourly.temperature[i])}°</p>
               </div>
-              <p>{Math.round(data.hourly.temperature[i])}°</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
