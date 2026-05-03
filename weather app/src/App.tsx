@@ -21,8 +21,6 @@ function App() {
 
       {location && (
         <>
-          {/* 🔥 puedes mostrar ciudad */}
-
           <DataWeather
             location={location}
             params={{
