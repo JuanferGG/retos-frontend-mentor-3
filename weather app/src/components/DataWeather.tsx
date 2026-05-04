@@ -65,63 +65,53 @@ export const DataWeather = ({
 
       const res = response[0];
 
-      // 🔹 CURRENT
       const current = res.current();
-      const currentData = {
-        temperature: Number(current.variables(0).value()),
-        feelsLike: Number(current.variables(1).value()),
-        humidity: Number(current.variables(2).value()),
-        wind: Number(current.variables(3).value()),
-        precipitation: Number(current.variables(4).value()),
-        weatherCode: Number(current.variables(5).value()),
-      };
-
-      // 🔹 HOURLY
       const hourly = res.hourly();
+      const daily = res.daily();
+
+      if (!current || !hourly || !daily) return;
+
       const hourlyLength =
         (Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval();
 
-      const hourlyTime = Array.from(
-        { length: hourlyLength },
-        (_, i) =>
-          new Date((Number(hourly.time()) + i * hourly.interval()) * 1000),
-      );
-
-      const hourlyData = {
-        time: hourlyTime,
-        temperature: Array.from(hourly.variables(0).valuesArray()),
-        weatherCode: Array.from(hourly.variables(1).valuesArray()),
-      };
-
-      // 🔹 DAILY
-      const daily = res.daily();
       const dailyLength =
         (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval();
 
-      const dailyTime = Array.from(
-        { length: dailyLength },
-        (_, i) =>
-          new Date((Number(daily.time()) + i * daily.interval()) * 1000),
-      );
-
-      const dailyData = {
-        time: dailyTime,
-        max: Array.from(daily.variables(0).valuesArray()),
-        min: Array.from(daily.variables(1).valuesArray()),
-        weatherCode: Array.from(daily.variables(2).valuesArray()),
-      };
-
       setData({
-        current: currentData,
-        hourly: hourlyData,
-        daily: dailyData,
+        current: {
+          temperature: Number(current.variables(0)!.value()),
+          feelsLike: Number(current.variables(1)!.value()),
+          humidity: Number(current.variables(2)!.value()),
+          wind: Number(current.variables(3)!.value()),
+          precipitation: Number(current.variables(4)!.value()),
+          weatherCode: Number(current.variables(5)!.value()),
+        },
+        hourly: {
+          time: Array.from(
+            { length: hourlyLength },
+            (_, i) =>
+              new Date((Number(hourly.time()) + i * hourly.interval()) * 1000),
+          ),
+          temperature: Array.from(hourly.variables(0)!.valuesArray()!),
+          weatherCode: Array.from(hourly.variables(1)!.valuesArray()!),
+        },
+        daily: {
+          time: Array.from(
+            { length: dailyLength },
+            (_, i) =>
+              new Date((Number(daily.time()) + i * daily.interval()) * 1000),
+          ),
+          max: Array.from(daily.variables(0)!.valuesArray()!),
+          min: Array.from(daily.variables(1)!.valuesArray()!),
+          weatherCode: Array.from(daily.variables(2)!.valuesArray()!),
+        },
       });
     };
 
     fetchData();
   }, [latitude, longitude]);
 
-  if (!data) return <p>Loading...</p>;
+  if (!data || !location) return <p>Loading...</p>;
 
   return (
     <div className="weather-container">
@@ -186,10 +176,16 @@ export const DataWeather = ({
             {data.hourly.time.slice(0, 12).map((time, i) => (
               <div key={i} className="block-hour">
                 <div className="icon-hour">
-                  <p className="icon">{weatherMap[data.hourly.weatherCode[i]] || "🌤️"}</p>
-                  <p>{time.getHours()} {time.getHours() >= 12 ? "PM" : "AM"}</p>
+                  <p className="icon">
+                    {weatherMap[data.hourly.weatherCode[i]] || "🌤️"}
+                  </p>
+                  <p>
+                    {time.getHours()} {time.getHours() >= 12 ? "PM" : "AM"}
+                  </p>
                 </div>
-                <p className="hourly-grades">{Math.round(data.hourly.temperature[i])}°</p>
+                <p className="hourly-grades">
+                  {Math.round(data.hourly.temperature[i])}°
+                </p>
               </div>
             ))}
           </div>
